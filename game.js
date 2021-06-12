@@ -76,12 +76,20 @@ class Game{
 					
 			object.traverse( function ( child ) {
 				if ( child.isMesh ) {
-                    child.material.map = null;
 					child.castShadow = true;
 					child.receiveShadow = false;		
 				}
 			} );
-			
+			const tLoader = new THREE.TextureLoader();
+
+			tLoader.load(`${game.assetsPath}images/SimplePeople_FireFighter_Black.png`,
+				function (texture) {
+					object.traverse(function (child) {
+						if (child.isMesh) {
+							child.material.map = texture;
+						}
+					});
+				});
 			game.scene.add(object);
 			game.player.object = object;
 			game.player.mixer.clipAction(object.animations[0]).play();
